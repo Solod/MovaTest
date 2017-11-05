@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import io.realm.Sort;
 
 public class MainFragment extends Fragment {
-    private RecyclerView mRecyclerView;
     private RvAdapter mRvAdapter;
 
 
@@ -25,7 +24,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRecyclerView = view.findViewById(R.id.recycler_view);
+        RecyclerView mRecyclerView = view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRvAdapter = new RvAdapter(((MainActivity)getActivity()).getRealm().where(SearchItem.class).findAllSorted("time", Sort.DESCENDING), changeListener);
         mRecyclerView.setAdapter(mRvAdapter);
@@ -36,12 +35,7 @@ public class MainFragment extends Fragment {
 
     }
 
-    private RvAdapter.OnChangeItemListener changeListener = new RvAdapter.OnChangeItemListener() {
-        @Override
-        public void onChangeItem() {
-
-        }
-    };
+    private final RvAdapter.OnChangeItemListener changeListener = () -> {};
 
     public void notifyAdapter() {
         mRvAdapter.notifyDataSetChanged();

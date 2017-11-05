@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -20,13 +21,11 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import ua.com.solodilov.evgen.movatest.api.SearchPicturesApi;
 import ua.com.solodilov.evgen.movatest.api.model.SearchPictures;
-import ua.com.solodilov.evgen.movatest.util.LogUtil;
 
 public class MainActivity extends AppCompatActivity {
 
     private Realm mRealm;
     private IStorage mStorage;
-    private SearchView mSearchView;
     private Toolbar toolbar;
 
     @Override
@@ -52,11 +51,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        SearchView mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         // Assumes current activity is the searchable activity
-        SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
-        LogUtil.info(this, "SearchableView: " + mSearchView);
-        mSearchView.setSearchableInfo(searchableInfo);
+        if (searchManager != null) {
+            SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+            mSearchView.setSearchableInfo(searchableInfo);
+        }
         mSearchView.setIconifiedByDefault(false);
         return true;
     }
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private boolean getResultFromApi(String phrase) {
+    private void getResultFromApi(String phrase) {
         new SearchPicturesApi().getApi().searchPictures(phrase)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(searchPictures -> {
@@ -99,8 +99,7 @@ public class MainActivity extends AppCompatActivity {
                         AlertDialog alertDialog = builder.create();
                         alertDialog.show();
                     }
-                }, throwable -> LogUtil.info("ERRRRRRROR    "));
-        return true;
+                }, throwable -> Log.e(this.getLocalClassName(), throwable.getMessage()));
     }
 
     private void notifyRecycler() {

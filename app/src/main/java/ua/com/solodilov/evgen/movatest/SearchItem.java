@@ -3,10 +3,6 @@ package ua.com.solodilov.evgen.movatest;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-/**
- * Created by jack on 05.11.17.
- */
-
 public class SearchItem extends RealmObject {
     private String id;
     private String title;

@@ -20,7 +20,7 @@ import io.realm.RealmResults;
 
 class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
 
-    private OnChangeItemListener mListener;
+    private final OnChangeItemListener mListener;
     private RealmResults<SearchItem> mListItem;
 
     RvAdapter(RealmResults<SearchItem> items, OnChangeItemListener listener) {
@@ -65,10 +65,10 @@ class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        View view;
-        ImageView imageView;
-        TextView textView;
-        ProgressBar progressBar;
+        final View view;
+        final ImageView imageView;
+        final TextView textView;
+        final ProgressBar progressBar;
 
         public ViewHolder(View itemView) {
             super(itemView);
