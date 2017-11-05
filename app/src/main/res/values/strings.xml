@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">MovaTest</string>
+    <string name="search_title">Search</string>
+    <string name="search_hint">Search</string>
+    <string name="description_image">search_image</string>
+</resources>
